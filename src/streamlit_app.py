@@ -40,10 +40,10 @@ with st.sidebar:
     else:
         min_ratio = float(min_payment_ratio)
     
-    fee_3 = bank_row["分期3期费率"]
-    fee_6 = bank_row["分期6期费率"]
-    fee_12 = bank_row["分期12期费率"]
-    
+    # 注意：CSV 中的费率是总手续费率，需要除以期数得到每期费率
+    fee_3 = bank_row["分期3期费率"] / 3
+    fee_6 = bank_row["分期6期费率"] / 6
+    fee_12 = bank_row["分期12期费率"] / 12
     st.caption(f"数据来源：{bank_row['网址']}")
 
 # ---------- 3. 用户输入 ----------
