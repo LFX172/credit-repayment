@@ -4,23 +4,25 @@
 
 def min_payment_interest(principal, daily_rate, monthly_payment_ratio=0.1, max_months=12):
     """
-    最低还款利息估算（简化模型）
-    每月偿还剩余本金的固定比例，剩余本金按日计息，每月30天。
+    最低还款利息估算（复利模型）
+    每月先按日计息加入本金，再还固定比例，剩余本金进入下月。
     """
     balance = principal
     total_interest = 0.0
     days_per_month = 30
 
-    for month in range(max_months):
+    for _ in range(max_months):
         if balance <= 1e-3:
             break
         interest = balance * daily_rate * days_per_month
         total_interest += interest
+        balance += interest               # 利息资本化
         payment = balance * monthly_payment_ratio
-        balance = balance - payment
+        balance -= payment
         if balance < 0:
             balance = 0.0
     return round(total_interest, 2)
+
 
 
 def installment_interest(principal, monthly_fee_rate, periods):
